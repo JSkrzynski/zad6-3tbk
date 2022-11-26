@@ -20,7 +20,7 @@ Zapytania:
 * http://test.com/cars
 * http://test.com/cars?year=2020
 * http://test.com/addCar (w postmanie body -> raw -> JSON: ```{
-  "model": "test",
-  "year": 2022,
+  "model": "testCar",
+  "year": 2001,
   "details": "details"
   }```)
