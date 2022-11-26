@@ -1,7 +1,7 @@
 Przed uruchomieniem należy zmapować localhosta:
 Na linuxie należy wykonać następujące polecenia z wykładu:
-*sudo nano /etc/hosts
-*127.0.0.1 test.com
+*sudo nano /etc/hosts*
+*127.0.0.1 test.com*
 
 Następnie:
 
