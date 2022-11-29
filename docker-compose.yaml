@@ -1,0 +1,49 @@
+version: '3.3'
+services:
+  postgres:
+    container_name: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - '/Documents/Studia/Semestr 5/TBK/lab6/zad3/Stepik_6.3/database:/docker-entrypoint-initdb.d'
+      - 'pg-data:/var/lib/postgresql/data'
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    image: 'postgres:11.5-alpine'
+  server-express:
+    container_name: server-express
+    labels:
+      - traefik.enable=true
+      - traefik.port=3000
+      - traefik.priority=1
+      - traefik.http.routers.express.rule=Host(`api`)
+    image: server-express
+    build:
+      context: ./server-express
+      dockerfile: Dockerfile
+  server-flask:
+    container_name: server-flask
+    labels:
+      - traefik.enable=true
+      - traefik.port=5000
+      - traefik.priority=10
+      - traefik.http.routers.flask.rule=Host(`api`) && PathPrefix(`/cars`)
+    image: server-flask
+    build:
+      context: ./server-flask
+      dockerfile: Dockerfile
+  traefik:
+    container_name: traefik
+    ports:
+      - '8080:8080'
+      - '80:80'
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    image: 'traefik:latest'
+    command:
+      - '--api.insecure=true'
+      - '--providers.docker=true'
+volumes:
+    pg-data:
